@@ -18,5 +18,8 @@
   "dependencies": {},
   "files": [
     "dist/*"
-  ]
+  ],
+  "devDependencies": {
+    "@types/node": "^12.7.11"
+  }
 }
