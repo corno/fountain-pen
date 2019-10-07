@@ -1,13 +1,12 @@
 {
   "name": "steroid-writer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "steroid writer is a simple package to create templates for code generation",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "author": "corno",
   "license": "ISC",
   "types": "dist/index.d.ts",
@@ -15,5 +14,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/corno/steroid-writer.git"
-  }
+  },
+  "dependencies": {},
+  "files": [
+    "dist/*"
+  ]
 }
