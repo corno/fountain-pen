@@ -4,7 +4,7 @@ export interface IWriter {
     write(...args: Array<string | (() => void) | [() => void]>): void
 }
 
-export class Writer implements IWriter {
+class Writer implements IWriter {
     private depth = 0
     private buffer: string | null = null
     private readonly indentation: string
