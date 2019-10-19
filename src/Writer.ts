@@ -4,6 +4,14 @@ export interface IWriter {
     write(...args: Array<string | (() => void) | [() => void]>): void
 }
 
+function trimRight(str: string) {
+    let index = str.length
+    while (str[index - 1] === " " || str[index - 1] === "\t") {
+        index -= 1
+    }
+    return str.substring(0, index)
+}
+
 class Writer implements IWriter {
     private depth = 0
     private buffer: string | null = null
@@ -40,7 +48,7 @@ class Writer implements IWriter {
     }
     private flush() {
         if (this.buffer !== null) {
-            const out = this.trimEndWhitespace ? this.buffer.trimRight() : this.buffer
+            const out = this.trimEndWhitespace ? trimRight(this.buffer) : this.buffer
             this.lineWriter(out)
         }
         this.buffer = null
