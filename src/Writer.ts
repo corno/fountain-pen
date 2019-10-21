@@ -1,4 +1,3 @@
-
 export interface IWriter {
     snippet(str: string): void
     write(...args: Array<string | (() => void) | [() => void]>): void
