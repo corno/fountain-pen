@@ -4,7 +4,9 @@
   "description": "steroid template utils is a simple package to create templates for code generation",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "u2l": "ncu -u --packageFile package.json && npm install",
+    "pubMin": "rm -rf ./dist && tsc && npm version minor && npm publish && git push"
   },
   "keywords": [],
   "author": "corno",
