@@ -17,9 +17,9 @@ class Writer implements IWriter {
     private readonly indentation: string
     private readonly trimEndWhitespace: boolean
     private readonly lineWriter: (string: string) => void
-    constructor(indentation: string, trimEndWhitspace: boolean, lineWriter: (string: string) => void) {
+    constructor(indentation: string, trimEndWhiteSpace: boolean, lineWriter: (string: string) => void) {
         this.indentation = indentation
-        this.trimEndWhitespace = trimEndWhitspace
+        this.trimEndWhitespace = trimEndWhiteSpace
         this.lineWriter = lineWriter
     }
     public snippet(str: string) {
@@ -65,6 +65,6 @@ class Writer implements IWriter {
     }
 }
 
-export function createWriter(indentation: string, trimEndWhitspace: boolean, lineWriter: (string: string) => void) {
-    return new Writer(indentation, trimEndWhitspace, lineWriter)
+export function createWriter(indentation: string, trimEndWhiteSpace: boolean, lineWriter: (string: string) => void) {
+    return new Writer(indentation, trimEndWhiteSpace, lineWriter)
 }
