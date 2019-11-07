@@ -1,6 +1,6 @@
 {
   "name": "steroid-template-utils",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "steroid template utils is a simple package to create templates for code generation",
   "main": "dist/index.js",
   "scripts": {
