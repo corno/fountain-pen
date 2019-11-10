@@ -1,6 +1,21 @@
 export interface IWriter {
+    /**
+     * writes a snippet of text without forcing a newline
+     * @param str the snippet to be written
+     */
     snippet(str: string): void
+    /**
+     * writes the array of 3 kinds of arguments and ends in a newline
+     * @param args variadic array of 3 kinds of arguments
+     * 1) a text snippet
+     * 2) an indentation instruction (a closure where everything that is written in the closure is indented one level more than the current level)
+     * 3) an anonymous function call
+     */
     write(...args: Array<string | (() => void) | [() => void]>): void
+    /**
+     * forces a newline
+     */
+    newline(): void
 }
 
 function trimRight(str: string) {
@@ -22,20 +37,9 @@ class Writer implements IWriter {
         this.trimEndWhitespace = trimEndWhiteSpace
         this.lineWriter = lineWriter
     }
-    /**
-     * writes a snippet of text without forcing a newline
-     * @param str the snippet to be written
-     */
     public snippet(str: string) {
         this.add(str)
     }
-    /**
-     * writes the array of 3 kinds of arguments and ends in a newline
-     * @param args variadic array of 3 kinds of arguments
-     * 1) a text snippet
-     * 2) an indentation instruction (a closure where everything that is written in the closure is indented one level more than the current level)
-     * 3) an anonymous function call
-     */
     public write(...args: Array<string | (() => void) | [() => void]>) {
         args.forEach(arg => {
             if (typeof arg === "string") {
@@ -49,16 +53,15 @@ class Writer implements IWriter {
             this.indent(arg)
         })
     }
-    /**
-     * forces a newline
-     */
     public newline() {
         this.line(``)
     }
     private add(str: string) {
         if (this.buffer === null) {
             this.buffer = ""
-            for (let i = 0; i !== this.depth; i += 1) { this.buffer += this.indentation }
+            for (let i = 0; i !== this.depth; i += 1) {
+                this.buffer += this.indentation
+            }
         }
         this.buffer += str
     }
