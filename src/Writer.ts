@@ -1,10 +1,5 @@
 export interface IWriter {
     /**
-     * writes a snippet of text without forcing a newline
-     * @param str the snippet to be written
-     */
-    snippet(str: string): void
-    /**
      * writes the array of 3 kinds of arguments and ends in a newline
      * @param args variadic array of 3 kinds of arguments
      * 1) a text snippet
@@ -13,9 +8,10 @@ export interface IWriter {
      */
     write(...args: Array<string | (() => void) | [() => void]>): void
     /**
-     * forces a newline
+     * same as 'write' but without a line ending for the last line
+     * @param args
      */
-    newline(): void
+    snippet(...args: Array<string | (() => void) | [() => void]>): void
 }
 
 function trimRight(str: string) {
@@ -37,33 +33,43 @@ class Writer implements IWriter {
         this.trimEndWhitespace = trimEndWhiteSpace
         this.lineWriter = lineWriter
     }
-    public snippet(str: string) {
-        this.add(str)
+    public snippet(...args: Array<string | (() => void) | [() => void]>) {
+        this.multiWrite(args, false)
     }
     public write(...args: Array<string | (() => void) | [() => void]>) {
-        args.forEach(arg => {
+        this.multiWrite(args, true)
+    }
+    private multiWrite(args: Array<string | (() => void) | [() => void]>, endline: boolean) {
+        args.forEach((arg, index) => {
+            if (index !== 0) {
+                this.flush()
+            }
+            //option 1: string
             if (typeof arg === "string") {
-                this.line(arg)
+                if (this.buffer === null) {
+                    this.buffer = ""
+                    for (let i = 0; i !== this.depth; i += 1) {
+                        this.buffer += this.indentation
+                    }
+                }
+                this.buffer += arg
                 return
             }
+            //option 2 : nested function
             if (arg instanceof Array) {
                 arg[0]()
                 return
             }
-            this.indent(arg)
+            // option 3: indent callback
+            this.flush()
+            this.depth += 1
+            arg()
+            this.flush()
+            this.depth -= 1
         })
-    }
-    public newline() {
-        this.line(``)
-    }
-    private add(str: string) {
-        if (this.buffer === null) {
-            this.buffer = ""
-            for (let i = 0; i !== this.depth; i += 1) {
-                this.buffer += this.indentation
-            }
+        if (endline) {
+            this.flush()
         }
-        this.buffer += str
     }
     private flush() {
         if (this.buffer !== null) {
@@ -71,17 +77,6 @@ class Writer implements IWriter {
             this.lineWriter(out)
         }
         this.buffer = null
-    }
-    private line(string: string) {
-        this.add(string)
-        this.flush()
-    }
-    private indent(callback: () => void) {
-        this.flush()
-        this.depth += 1
-        callback()
-        this.flush()
-        this.depth -= 1
     }
 }
 
