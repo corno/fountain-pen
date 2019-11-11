@@ -6,12 +6,12 @@ export interface IWriter {
      * 2) an indentation instruction (a closure where everything that is written in the closure is indented one level more than the current level)
      * 3) an anonymous function call
      */
-    write(...args: Array<string | (() => void) | [() => void]>): void
+    write(...args: Array<string | ((writer: IWriter) => void) | [(writer: IWriter) => void]>): void
     /**
      * same as 'write' but without a line ending for the last line
      * @param args
      */
-    snippet(...args: Array<string | (() => void) | [() => void]>): void
+    snippet(...args: Array<string | ((writer: IWriter) => void) | [(writer: IWriter) => void]>): void
 }
 
 function trimRight(str: string) {
@@ -33,13 +33,13 @@ class Writer implements IWriter {
         this.trimEndWhitespace = trimEndWhiteSpace
         this.lineWriter = lineWriter
     }
-    public snippet(...args: Array<string | (() => void) | [() => void]>) {
+    public snippet(...args: Array<string | ((writer: IWriter) => void) | [(writer: IWriter) => void]>) {
         this.multiWrite(args, false)
     }
-    public write(...args: Array<string | (() => void) | [() => void]>) {
+    public write(...args: Array<string | ((writer: IWriter) => void) | [(writer: IWriter) => void]>) {
         this.multiWrite(args, true)
     }
-    private multiWrite(args: Array<string | (() => void) | [() => void]>, endline: boolean) {
+    private multiWrite(args: Array<string | ((writer: IWriter) => void) | [(writer: IWriter) => void]>, endline: boolean) {
         args.forEach((arg, index) => {
             if (index !== 0) {
                 this.flush()
@@ -57,13 +57,13 @@ class Writer implements IWriter {
             }
             //option 2 : nested function
             if (arg instanceof Array) {
-                arg[0]()
+                arg[0](this)
                 return
             }
             // option 3: indent callback
             this.flush()
             this.depth += 1
-            arg()
+            arg(this)
             this.flush()
             this.depth -= 1
         })
