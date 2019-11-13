@@ -1,7 +1,7 @@
 {
-  "name": "steroid-template-utils",
+  "name": "fountain-pen",
   "version": "0.6.0",
-  "description": "steroid template utils is a simple package to create templates for code generation",
+  "description": "fountain-pen is a simple package to create templates for code generation",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -18,7 +18,7 @@
   "prepublish": "tsc",
   "repository": {
     "type": "git",
-    "url": "https://github.com/corno/steroid-template-utils.git"
+    "url": "https://github.com/corno/fountain-pen.git"
   },
   "dependencies": {},
   "files": [
