@@ -1,1 +1,2 @@
-export * from "./Writer"
+export * from "./createFountainPen"
+export * from "./IFountainPen"

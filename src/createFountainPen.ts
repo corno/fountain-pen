@@ -1,18 +1,4 @@
-export interface IWriter {
-    /**
-     * writes the array of 3 kinds of arguments and ends in a newline
-     * @param args variadic array of 3 kinds of arguments
-     * 1) a text snippet
-     * 2) an indentation instruction (a closure where everything that is written in the closure is indented one level more than the current level)
-     * 3) an anonymous function call
-     */
-    write(...args: Array<string | ((writer: IWriter) => void) | [(writer: IWriter) => void]>): void
-    /**
-     * same as 'write' but without a line ending for the last line
-     * @param args
-     */
-    snippet(...args: Array<string | ((writer: IWriter) => void) | [(writer: IWriter) => void]>): void
-}
+import { IFountainPen } from "./IFountainPen"
 
 function trimRight(str: string) {
     let index = str.length
@@ -22,7 +8,7 @@ function trimRight(str: string) {
     return str.substring(0, index)
 }
 
-class Writer implements IWriter {
+class FountainPen implements IFountainPen {
     private depth = 0
     private buffer: string | null = null
     private readonly indentation: string
@@ -33,21 +19,27 @@ class Writer implements IWriter {
         this.trimEndWhitespace = trimEndWhiteSpace
         this.lineWriter = lineWriter
     }
-    public snippet(...args: Array<string | ((writer: IWriter) => void) | [(writer: IWriter) => void]>) {
+    /*publics*/
+    public snippet(...args: Array<string | ((writer: IFountainPen) => void) | [(writer: IFountainPen) => void]>) {
         this.multiWrite(args, false)
     }
-    public write(...args: Array<string | ((writer: IWriter) => void) | [(writer: IWriter) => void]>) {
+    public write(...args: Array<string | ((writer: IFountainPen) => void) | [(writer: IFountainPen) => void]>) {
         this.multiWrite(args, true)
     }
-    private multiWrite(args: Array<string | ((writer: IWriter) => void) | [(writer: IWriter) => void]>, endline: boolean) {
+    /*privates*/
+    private multiWrite(args: Array<string | ((writer: IFountainPen) => void) | [(writer: IFountainPen) => void]>, endline: boolean) {
         args.forEach((arg, index) => {
             if (index !== 0) {
+                //do not flush before if this is the first argument. This allows continuation on the same line from previous input
+                //if this is not desired, a newline can be forced by making the first argument ``
                 this.flush()
             }
-            //option 1: string
             if (typeof arg === "string") {
+                //option 1: string
                 if (this.buffer === null) {
+                    //nothing has been written yet
                     this.buffer = ""
+                    //initialize and indent
                     for (let i = 0; i !== this.depth; i += 1) {
                         this.buffer += this.indentation
                     }
@@ -55,8 +47,8 @@ class Writer implements IWriter {
                 this.buffer += arg
                 return
             }
-            //option 2 : nested function
             if (arg instanceof Array) {
+                //option 2 : nested function
                 arg[0](this)
                 return
             }
@@ -80,6 +72,6 @@ class Writer implements IWriter {
     }
 }
 
-export function createWriter(indentation: string, trimEndWhiteSpace: boolean, lineWriter: (string: string) => void) {
-    return new Writer(indentation, trimEndWhiteSpace, lineWriter)
+export function createFountainPen(indentation: string, trimEndWhiteSpace: boolean, lineWriter: (string: string) => void): IFountainPen {
+    return new FountainPen(indentation, trimEndWhiteSpace, lineWriter)
 }
