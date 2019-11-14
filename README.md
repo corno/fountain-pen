@@ -34,8 +34,8 @@ npm install -g fountain-pen
 
 **Note**: Node 6.10 or higher runtime required.
 
-[npm-image]:https://img.shields.io/npm/v/npm-get-version.svg
-[npm-url]:http://npmjs.org/package/npm-get-version
+[npm-image]:https://img.shields.io/npm/v/fountain-pen.svg
+[npm-url]:http://npmjs.org/package/fountain-pen
 [travis-image]:https://travis-ci.org/corno/fountain-pen.svg?branch=master
 [travis-url]:https://travis-ci.org/corno/fountain-pen
 [david-image]:https://david-dm.org/corno/fountain-pen/status.svg
