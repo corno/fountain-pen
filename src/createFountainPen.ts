@@ -72,6 +72,12 @@ class FountainPen implements IFountainPen {
     }
 }
 
+/**
+ *
+ * @param indentation typically several spaces or a tab character
+ * @param trimEndWhiteSpace if true, tabs and characters at the end of the line will be removed
+ * @param lineWriter the callback to which the output will be sent, one line at the time
+ */
 export function createFountainPen(indentation: string, trimEndWhiteSpace: boolean, lineWriter: (string: string) => void): IFountainPen {
     return new FountainPen(indentation, trimEndWhiteSpace, lineWriter)
 }
