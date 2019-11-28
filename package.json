@@ -15,7 +15,7 @@
   "keywords": [],
   "author": "corno",
   "license": "ISC",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "prepublish": "tsc",
   "repository": {
     "type": "git",
