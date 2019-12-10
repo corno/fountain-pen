@@ -22,21 +22,20 @@
     "type": "git",
     "url": "https://github.com/corno/fountain-pen.git"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "files": [
     "dist/*"
   ],
   "devDependencies": {
-    "@types/chai": "^4.2.5",
+    "@types/chai": "^4.2.6",
     "@types/mocha": "^5.2.7",
-    "@types/node": "^12.12.14",
+    "@types/node": "^12.12.16",
     "chai": "^4.2.0",
     "cross-env": "^6.0.3",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "tslint": "^5.20.1",
-    "ts-node": "^8.5.3",
+    "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   }
 }
