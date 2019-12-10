@@ -4,9 +4,10 @@
   "description": "fountain-pen is a simple package to create templates for code generation",
   "main": "dist/src/index.js",
   "scripts": {
-    "build": "tsc",
-    "lint": "tslint --project tsconfig.json ./src/*",
-    "preparePublish": "git diff --exit-code && ncu -u --packageFile package.json && npm install && rd /s /q .\\dist && tsc && npm run lint && npm run test",
+    "build": "mkdir .\\dist & rd /s /q .\\dist && tsc",
+    "lint": "tslint --project tsconfig.json",
+    "buildLintAndTest": "npm run build && npm run lint && npm run test",
+    "validatePublishReadiness": "git diff --exit-code && ncu -u --packageFile package.json && npm install && npm run buildLintAndTest",
     "pubMin": "npm run preparePublish && npm version minor && git push && npm publish",
     "pubPatch": "npm run preparePublish && npm version patch && git push && npm publish",
     "test": "cross-env TS_NODE_FILES=true mocha --exit --require ts-node/register --colors test/**/*.ts",
