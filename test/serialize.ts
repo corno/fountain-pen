@@ -1,7 +1,7 @@
 // tslint:disable: no-console no-unused-expression no-shadowed-variable
 
 import { assert } from "chai"
-import { IParagraph, line, paragraph } from "../src"
+import { IParagraph, line } from "../src"
 import { serialize } from "../src/serialize"
 
 function defSerialize(paragraph: IParagraph, trim: boolean = false) {
@@ -12,46 +12,46 @@ function defSerialize(paragraph: IParagraph, trim: boolean = false) {
 
 describe("fountain pen", () => {
     it("paragraph behaviour", () => {
-        assert.deepEqual(defSerialize(paragraph(["A"])), ["A"])
+        assert.deepEqual(defSerialize(["A"]), ["A"])
     })
     it("line behaviour", () => {
-        const para = paragraph([
+        const para = [
             line([
                 `X`,
-                line([`Z`]),
+                [`Z`],
                 `Y`,
             ]),
-        ])
+        ]
         assert.deepEqual(defSerialize(para), ["XZY"])
     })
     it("indentation behaviour", () => {
-        const para = paragraph([
+        const para = [
             "BEFORE",
             () => {
                 return ["B"]
             },
             "AFTER",
-        ])
+        ]
         assert.deepEqual(defSerialize(para), ["BEFORE", "    B", "AFTER"])
     })
     it("subfunction behaviour", () => {
-        const para = paragraph([
+        const para = [
             "A",
-            paragraph(["B"]),
+            ["B"],
             "C",
-        ])
+        ]
         assert.deepEqual(defSerialize(para), ["A", "B", "C"])
     })
     it("trimming", () => {
-        const para = paragraph(["line ending with spaces     "])
+        const para = ["line ending with spaces     "]
         assert.deepEqual(defSerialize(para, true), ["line ending with spaces"])
     })
     it("non-trimming", () => {
-        const para = paragraph(["line ending with spaces     "])
+        const para = ["line ending with spaces     "]
         assert.deepEqual(defSerialize(para), ["line ending with spaces     "])
     })
     it("multiline", () => {
-        const para = paragraph(["A", "B"])
+        const para = ["A", "B"]
         assert.deepEqual(defSerialize(para), ["A", "B"])
     })
 })

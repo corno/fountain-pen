@@ -1,4 +1,6 @@
-import { IInlineSection, IParagraph } from "./IFountainPen"
+import { InlinePart } from "./InlineSection"
+import { Line } from "./Line"
+import { IParagraph } from "./Paragraph"
 
 function trimRight(str: string) {
     let index = str.length
@@ -68,7 +70,7 @@ function serializeParagraph(paragraph: IParagraph, settings: Settings, depth: nu
             // option 2: indent callback
             const subtokens = arg()
             serializeParagraph(subtokens, settings, depth + 1)
-        } else if (arg instanceof IInlineSection) {
+        } else if (arg instanceof Line) {
             //option 3 : nested section
             const buffer: Buffer = new Buffer(settings, depth)
             serializeInlineSection(arg, settings, buffer)
@@ -81,17 +83,24 @@ function serializeParagraph(paragraph: IParagraph, settings: Settings, depth: nu
 }
 
 
-function serializeInlineSection(inlineSection: IInlineSection, settings: Settings, buffer: Buffer) {
+function serializeInlinePart(part: InlinePart, settings: Settings, buffer: Buffer) {
+    if (typeof part === "string") {
+        buffer.add(part)
+    } else if (part instanceof Function) {
+        // option 2: indent callback
+        buffer.flush()
+        const subtokens = part()
+        serializeParagraph(subtokens, settings, buffer.depth + 1)
+    } else {
+        part.forEach(arg => {
+            serializeInlinePart(arg, settings, buffer)
+        })
+    }
+}
+
+
+function serializeInlineSection(inlineSection: Line, settings: Settings, buffer: Buffer) {
     inlineSection.isParts.forEach(arg => {
-        if (typeof arg === "string") {
-            buffer.add(arg)
-        } else if (arg instanceof Function) {
-            // option 2: indent callback
-            buffer.flush()
-            const subtokens = arg()
-            serializeParagraph(subtokens, settings, buffer.depth + 1)
-        } else {
-            serializeInlineSection(arg, settings, buffer)
-        }
+        serializeInlinePart(arg, settings, buffer)
     })
 }
