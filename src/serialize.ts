@@ -11,8 +11,8 @@ function trimRight(str: string) {
 }
 
 type Settings = {
-    trimEndWhitespace: boolean,
-    lineWriter: (string: string) => void,
+    trimEndWhitespace: boolean
+    lineWriter: (string: string) => void
     indentation: string
 }
 
