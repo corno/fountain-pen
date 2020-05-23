@@ -51,7 +51,12 @@ class Buffer {
  * @param trimEndWhiteSpace if true, tabs and characters at the end of the line will be removed
  * @param lineWriter the callback to which the output will be sent, one line at the time
  */
-export function serialize(p: IParagraph, indentation: string, trimEndWhitespace: boolean, lineWriter: (string: string) => void) {
+export function serialize(
+    p: IParagraph,
+    indentation: string,
+    trimEndWhitespace: boolean,
+    lineWriter: (string: string) => void
+): void {
     const settings: Settings = {
         lineWriter: lineWriter,
         trimEndWhitespace: trimEndWhitespace,
