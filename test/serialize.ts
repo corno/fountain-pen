@@ -4,7 +4,7 @@ import { assert } from "chai"
 import { IParagraph, line } from "../src"
 import { serialize } from "../src/serialize"
 
-function defSerialize(paragraph: IParagraph, trim: boolean = false) {
+function defSerialize(paragraph: IParagraph, trim = false) {
     const out: string[] = []
     serialize(paragraph, "    ", trim, str => out.push(str))
     return out

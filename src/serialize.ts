@@ -1,4 +1,4 @@
-import { InlinePart } from "./InlineSection"
+import { InlinePart } from "./InlinePart"
 import { Line } from "./Line"
 import { IParagraph } from "./Paragraph"
 

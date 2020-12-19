@@ -1,4 +1,4 @@
-import { InlinePart } from "./InlineSection"
+import { InlinePart } from "./InlinePart"
 
 interface IInArray<T> {
     forEach(callback: (element: T) => void): void
