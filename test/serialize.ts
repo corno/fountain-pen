@@ -1,12 +1,12 @@
 // tslint:disable: no-console no-unused-expression no-shadowed-variable
 
 import { assert } from "chai"
-import { IParagraph, line } from "../src"
+import { Block, line } from "../src"
 import { serialize } from "../src/serialize"
 
-function defSerialize(paragraph: IParagraph, trim = false) {
+function defSerialize(block: Block, trim = false) {
     const out: string[] = []
-    serialize(paragraph, "    ", trim, str => out.push(str))
+    serialize(block, "    ", trim, str => out.push(str))
     return out
 }
 
