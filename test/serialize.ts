@@ -11,7 +11,7 @@ function defSerialize(block: Block, trim = false) {
 }
 
 describe("fountain pen", () => {
-    it("paragraph behaviour", () => {
+    it("block behaviour", () => {
         assert.deepEqual(defSerialize(["A"]), ["A"])
     })
     it("line behaviour", () => {

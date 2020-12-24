@@ -17,13 +17,25 @@ const myLine = fp.line([ //the fp.line function concatenates all content on one 
     },
 ])
 
-const myParagraph = [
+const myBlock = [
     myLine,
     "another line",
+    '',
+    fp.line([
+        'myFunction (',
+        () => {
+            return "//indented arguments"
+        },
+        ') {',
+        () => {
+            return "//indented statements"
+        },
+        '}',
+    ]),
 ]
 
 fp.serialize(
-    myParagraph, //the paragraph to serialize
+    myBlock, //the paragraph to serialize
     "   ",  //the indentation (usually 4 spaces or a tab)
     true, //trim whitespace at the end of a line?
     lineOut => { //callback which is called for each individual generated line
@@ -33,7 +45,13 @@ fp.serialize(
 
 /*
 output:
-FooBara nested array of inline parts
+FooBara nested array element
    indented
 another line
+
+myFunction (
+   //indented arguments
+) {
+   //indented statements
+}
 */
