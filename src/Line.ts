@@ -1,16 +1,12 @@
-import { InlinePart } from "./InlinePart"
-
-interface IInArray<T> {
-    forEach(callback: (element: T) => void): void
-}
+import { InlineSegment } from "./InlineSegment"
 
 export class Line {
-    public readonly isParts: IInArray<InlinePart>
-    constructor(parts: IInArray<InlinePart>) {
-        this.isParts = parts
+    public readonly segment: InlineSegment
+    constructor(segment: InlineSegment) {
+        this.segment = segment
     }
 }
 
-export function line(args: IInArray<InlinePart>): Line {
+export function line(args: InlineSegment): Line {
     return new Line(args)
 }
