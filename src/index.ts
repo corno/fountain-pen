@@ -1,4 +1,5 @@
 export * from "./serialize"
+export * from "./serializeToStream"
 export * from "./Line"
 export * from "./Block"
 export * from "./InlineSegment"
