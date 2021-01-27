@@ -1,6 +1,6 @@
 {
   "name": "fountain-pen",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "fountain-pen is a simple package to create templates for code generation",
   "main": "dist/src/index.js",
   "scripts": {
