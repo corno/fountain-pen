@@ -17,7 +17,7 @@ export function serializeToStream(
             trimEndWhitespace,
             line => {
                 count += 1
-                if (limiter !== null && count <= limiter.maximum) {
+                if (limiter === null || count <= limiter.maximum) {
                     consumer.onData(line)
                 } else {
                     aborted = true
