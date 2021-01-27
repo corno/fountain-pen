@@ -23,7 +23,9 @@
     "type": "git",
     "url": "https://github.com/corno/fountain-pen.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "pareto": "^0.48.0"
+  },
   "files": [
     "dist/*"
   ],
