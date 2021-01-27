@@ -3,10 +3,7 @@
 */
 
 import { Line } from "./Line"
-
-interface IInArray<T> {
-    forEach(callback: (element: T) => void): void
-}
+import { IInArray } from "./IInArray"
 
 export type Block =
     | string

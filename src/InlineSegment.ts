@@ -1,8 +1,6 @@
 import { Block } from "./Block"
+import { IInArray } from "./IInArray"
 
-interface IInArray<T> {
-    forEach(callback: (element: T) => void): void
-}
 
 export type InlineSegment =
     | string
