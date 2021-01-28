@@ -65,40 +65,44 @@ export function serialize(
     serializeBlock(p, settings, 0)
 }
 
-function serializeBlock(arg: Block, settings: Settings, depth: number) {
-    if (typeof arg === "string") {
+function serializeBlock(block: Block, settings: Settings, depth: number) {
+    if (block === null) {
+        //do nothing
+    } else if (typeof block === "string") {
         const buffer: Buffer = new Buffer(settings, depth)
-        buffer.add(arg)
+        buffer.add(block)
         buffer.flush()
-    } else if (arg instanceof Function) {
+    } else if (block instanceof Function) {
         // option 2: indent callback
-        const subtokens = arg()
+        const subtokens = block()
         serializeBlock(subtokens, settings, depth + 1)
-    } else if (arg instanceof Line) {
+    } else if (block instanceof Line) {
         //option 3 : nested section
         const buffer: Buffer = new Buffer(settings, depth)
-        serializeInlineSegment(arg.segment, settings, buffer)
+        serializeInlineSegment(block.segment, settings, buffer)
         buffer.flush()
     } else {
         //option 3 : nested section
 
-        arg.forEach(sub => {
+        block.forEach(sub => {
             serializeBlock(sub, settings, depth)
         })
     }
 }
 
 
-function serializeInlineSegment(part: InlineSegment, settings: Settings, buffer: Buffer) {
-    if (typeof part === "string") {
-        buffer.add(part)
-    } else if (part instanceof Function) {
+function serializeInlineSegment(inlineSegment: InlineSegment, settings: Settings, buffer: Buffer) {
+    if (inlineSegment === null) {
+        //do nothing
+    } else if (typeof inlineSegment === "string") {
+        buffer.add(inlineSegment)
+    } else if (inlineSegment instanceof Function) {
         // option 2: indent callback
         buffer.flush()
-        const subtokens = part()
+        const subtokens = inlineSegment()
         serializeBlock(subtokens, settings, buffer.depth + 1)
     } else {
-        part.forEach(arg => {
+        inlineSegment.forEach(arg => {
             serializeInlineSegment(arg, settings, buffer)
         })
     }
