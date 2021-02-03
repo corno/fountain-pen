@@ -7,6 +7,7 @@ export function serializeToStream(
     block: Block,
     indentation: string,
     trimEndWhitespace: boolean,
+    newline: string,
 ): p.IStream<string, null> {
     return p20.createStream((limiter, consumer) => {
         let count = 0
@@ -18,7 +19,7 @@ export function serializeToStream(
             line => {
                 count += 1
                 if (limiter === null || count <= limiter.maximum) {
-                    consumer.onData(line)
+                    consumer.onData(line + newline)
                 } else {
                     aborted = true
                 }
